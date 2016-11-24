@@ -28,6 +28,12 @@ describe "Model types" do
         end.to raise_exception(ModelTypesController::ModelNotFound)
       end
 
+      it 'should return correct model_types for the given model' do
+        new_model = FactoryGirl.create(:model, :with_types)
+        get "/models/#{ new_model.model_slug }/model_types", format: request_format
+        expect(response.body).to be_eql(new_model.model_types.to_json)
+      end
+
     end
   end
 end
