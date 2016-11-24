@@ -14,6 +14,12 @@ describe "Model types" do
         expect(response).to be_success
       end
 
+      it 'finds requested model correctly' do
+        get "/models/#{ model.model_slug }/model_types", format: request_format
+        expect(assigns(:model)).not_to be_nil
+        expect(assigns(:model).model_slug).to be_eql model.model_slug
+      end
+
     end
   end
 end
