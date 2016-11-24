@@ -10,21 +10,22 @@ describe "Model types" do
     context "GET models/:model_slug/model_types" do
       let(:endpoint) { "/models/#{ model.model_slug }/model_types" }
 
-      it 'responds with success' do
+      it 'should respond with success' do
         get endpoint, format: request_format
         expect(response).to be_success
       end
 
-      it 'finds requested model correctly' do
+      it 'should find requested model correctly' do
         get endpoint, format: request_format
         expect(assigns(:model)).not_to be_nil
         expect(assigns(:model).model_slug).to be_eql model.model_slug
       end
 
-      it 'raise ModelNotFound exception if failed to find given model' do\
+      it 'should raise ModelNotFound exception if failed to find requested model' do
+        missing_slug = "i_was_missed"
         expect do
-          get endpoint, format: request_format
-        end.to raise_exception(ModelNotFound)
+          get "/models/#{ missing_slug }/model_types", format: request_format
+        end.to raise_exception(ModelTypesController::ModelNotFound)
       end
 
     end
